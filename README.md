@@ -14,7 +14,11 @@
     -Created Redux Store with User Slice
     -Implementted SignOut feature
     -Udate Profile
-
+    -Bug fix: SignUp user display name and profile picture updated
+    -Bug fix: if the user is not sign in redirect /browse to login page and vice-versa
+    -Usubscribed to the onAuthStateChanged Callback
+    -Add hardcoded value to the constant files
+    
 # Features
     -Login/SignUp
         -SignIn/SignUp form

@@ -5,13 +5,12 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import {auth} from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { BACKGROUND_IMG, USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
     const [isSignInForm, setSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const name = useRef(null);
     const email = useRef(null);
@@ -31,11 +30,10 @@ const Login = () => {
                 // Signed up 
                 const user = userCredential.user;
                 updateProfile(user, {
-                    displayName: name.current.value
+                    displayName: name.current.value, photoURL: USER_AVATAR
                   }).then(() => {
-                    const {uid, email, displayName} = auth.currentUser;
-                    dispatch(addUser({uid: uid, email: email, displayName: displayName}))
-                    navigate("/browse");
+                    const {uid, email, displayName, photoURL} = auth.currentUser;
+                    dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL}))
                   }).catch((error) => {
                     setErrorMessage(error.message)
                   });
@@ -50,8 +48,6 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                navigate("/browse");
-                console.log(user);
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -66,10 +62,7 @@ const Login = () => {
         <div>
             <Header/>
             <div className="absolute">
-                <img
-                    src="https://assets.nflxext.com/ffe/siteui/vlv3/c0b69670-89a3-48ca-877f-45ba7a60c16f/2642e08e-4202-490e-8e93-aff04881ee8a/IN-en-20240212-popsignuptwoweeks-perspective_alpha_website_medium.jpg"
-                    alt="backgroundImage"
-                />
+                <img src={BACKGROUND_IMG} alt="backgroundImage"/>
             </div>
             <form onSubmit={(e) => e.preventDefault()} className="absolute w-4/12 p-10 my-36 left-0 right-0 mx-auto bg-black text-white bg-opacity-80 rounded-md">
                 <h1 className="text-3xl font-bold my-4 roun\">{!isSignInForm ? "Sign Up" : "Sign In"}</h1>
